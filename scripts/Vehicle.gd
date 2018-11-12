@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+var bullet_scene=preload("res://scenes/Bullet.tscn")
 export (int) var speed_move=5
 var shoot_rate=1/3
 var special=true
@@ -32,7 +33,10 @@ func input():
 
 func shoot():
 	
-	 
+	var bullet=bullet_scene.instance()
+	bullet.position=position
+	get_parent().add_child(bullet)
+	
 	
 	pass	
 	
