@@ -36,10 +36,10 @@ func _physics_process(delta):
 	
 		if timer==10 || timer==17 || timer==24:
 			var bala_instance = Bala.instance()
-			vectorPosition = $Sprite2/PositionBullet.global_position - global_position
+			vectorPosition = $Sprite2/PositionBullet.global_position + position - $Sprite2.global_position
 			bala_instance.pos = vectorPosition
-			bala_instance.pos.y -= 190
-			bala_instance.pos.x += 30
+			#bala_instance.pos.y -= $Sprite2.position.y
+			bala_instance.pos.x = $Sprite2.position.x *2.5 
 
 			vectorDirection = $Sprite2/PositionBullet.global_position
 			vectorDirection.x = $Sprite2/PositionBullet.global_position.x - global_position.x

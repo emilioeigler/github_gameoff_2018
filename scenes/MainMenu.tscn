@@ -25,7 +25,7 @@ scale = Vector2( 0.761666, 0.761666 )
 texture = ExtResource( 2 )
 
 [node name="Node2D" parent="." instance=ExtResource( 3 )]
-position = Vector2( 847.178, 305.163 )
+position = Vector2( 800, 305.163 )
 
 [node name="blue_light" type="Sprite" parent="."]
 position = Vector2( 781.743, 326.388 )
