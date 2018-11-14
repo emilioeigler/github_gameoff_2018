@@ -18,5 +18,8 @@ func _physics_process(delta):
 		if (collision.collider.is_in_group("player")):
 			collision.collider.hit()
 		get_parent().remove_child(self)
-		
 
+	
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()

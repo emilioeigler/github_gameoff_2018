@@ -1,4 +1,4 @@
-extends Position2D
+extends KinematicBody2D
 
 export(PackedScene) var Bala
 export(PackedScene) var Laser
@@ -11,12 +11,15 @@ var timer = 0
 var timer2 = 0
 var counter = 0
 
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	
 	timer+=1
 	if timer2 ==0:
 		if angle<=-0.3:
@@ -69,7 +72,6 @@ func _physics_process(delta):
 		var laser_instance = Laser.instance()
 		laser_instance.pos = Vector2(-75,-134)
 		laser_instance.add_collision_exception_with(self) 
-		print(vectorPosition)
 		get_parent().add_child(laser_instance)
 		counter+=1
 		if counter==100:
@@ -77,4 +79,7 @@ func _physics_process(delta):
 			timer = 0
 			counter=0
 			direction = true
-	pass
+
+
+
+
