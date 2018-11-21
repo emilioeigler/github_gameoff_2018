@@ -11,8 +11,8 @@ extents = Vector2( 6.83355, 2.81575 )
 [node name="Laser" type="KinematicBody2D"]
 position = Vector2( 0, -0.122086 )
 input_pickable = false
-collision_layer = 1
-collision_mask = 1
+collision_layer = 2
+collision_mask = 2
 collision/safe_margin = 0.08
 motion/sync_to_physics = false
 script = ExtResource( 1 )
@@ -25,6 +25,7 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+disabled = true
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 position = Vector2( -0.183131, 0.0610437 )
