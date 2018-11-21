@@ -3,6 +3,7 @@ extends KinematicBody2D
 export(PackedScene) var Bala
 export(PackedScene) var Laser
 export(PackedScene) var Fish
+export(PackedScene) var Bubble
 
 var angle = 0
 var direction = true
@@ -16,7 +17,7 @@ onready var state = ShotState.new(self)
 
 const STATE_SHOT   = 0
 const STATE_LASER  = 1
-const STATE_KICK   = 2
+const STATE_BUBBLE = 2
 const STATE_FISH   = 3
 
 
@@ -37,8 +38,8 @@ func set_state(new_state):
 		state = ShotState.new(self)
 	elif new_state == STATE_LASER:
 		state = LaserState.new(self)
-	#elif new_state == STATE_KICK:
-	#	state = KickState.new(self)
+	elif new_state == STATE_BUBBLE:
+		state = BubbleState.new(self)
 	elif new_state == STATE_FISH:
 		state = FishState.new(self)
 	
@@ -177,10 +178,63 @@ class FishState:
 		if boss.timer>60:
 			boss.timer = 0
 		if timerFish >= 300:
-			boss.set_state(boss.STATE_SHOT)
+			boss.set_state(boss.STATE_BUBBLE)
 			timerFish = 0
 		pass
 	
 	func _exit():
 		pass
 	
+# class bubblestate-----------------------------------------------------------------------------
+class BubbleState:
+	var boss
+	var timerBubble = 0
+	func _init(boss):
+		self.boss = boss
+		
+		pass
+	
+	func _fixed_process(delta):
+		boss.timer+=1
+		
+		timerBubble+=1
+		if boss.angle<=-0.3:
+			boss.direction = true
+		if boss.angle>=0.4:
+			boss.direction = false
+			 
+		if boss.direction:
+			boss.rotate(0.01)
+			boss.angle += 0.01
+		if !boss.direction:
+			boss.rotate(-0.01)
+			boss.angle -= 0.01
+		if boss.timer==10 || boss.timer==17 || boss.timer==24:
+			var bala_instance = boss.Bala.instance()
+			boss.vectorPosition = boss.get_node("Sprite2/PositionBullet").global_position + boss.position - boss.get_node("Sprite2").global_position
+			bala_instance.pos = boss.vectorPosition
+			bala_instance.pos.x = boss.get_node("Sprite2").position.x *2.5 
+	
+			boss.vectorDirection = boss.get_node("Sprite2/PositionBullet").global_position
+			boss.vectorDirection.x = boss.get_node("Sprite2/PositionBullet").global_position.x - boss.global_position.x
+			boss.vectorDirection.y = boss.get_node("Sprite2/PositionBullet").global_position.y - boss.global_position.y
+			
+			bala_instance.dir = boss.vectorDirection
+			boss.get_parent().add_child(bala_instance)
+		
+		if timerBubble == 10 ||  timerBubble == 40 || timerBubble == 70 || timerBubble == 100:
+			var bubble_instance = boss.Bubble.instance()
+			boss.vectorPosition = Vector2(rand_range(-701,0),600)
+			bubble_instance.pos = boss.vectorPosition
+			boss.get_parent().add_child(bubble_instance)
+			
+		print(timerBubble)
+		if boss.timer>60:
+			boss.timer = 0
+		if timerBubble >= 300:
+			boss.set_state(boss.STATE_SHOT)
+			timerBubble = 0
+		pass
+	
+	func _exit():
+		pass
